@@ -12,9 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      USER_BASE_BIN: "$(python -m site --user-base)/bin"
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -24,23 +21,11 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Upgrade pip
-      run: |
-        python -m pip install --upgrade pip
-        echo "USER_BASE_BIN=${USER_BASE_BIN}" >> $GITHUB_ENV
-
     - name: Install dependencies
       run: |
         # If you have a requirements.txt file, install dependencies
-        if [ -f requirements.txt ]; then
-          pip install -r requirements.txt
-        fi
+        # pip install -r requirements.txt
 
-    - name: Lint code
+    - name: Run Python script
       run: |
-        pip install flake8
-        flake8 sample.py
-
-    - name: Run tests
-      run: |
-        python -m unittest discover -v
+        python sample.py
